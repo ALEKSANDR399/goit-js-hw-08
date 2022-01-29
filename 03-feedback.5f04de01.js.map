@@ -1,0 +1,1 @@
+{"version":3,"sources":["js/03-feedback.js"],"names":["formBox","document","querySelector"],"mappings":";AAAA,MAAMA,EAAUC,SAASC,cAAc","file":"03-feedback.5f04de01.js","sourceRoot":"../src","sourcesContent":["const formBox = document.querySelector('.feedback-form');\n"]}
