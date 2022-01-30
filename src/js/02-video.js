@@ -2,12 +2,12 @@ import Player from '@vimeo/player';
 
 const playerBox = document.querySelector('#vimeo-player');
 const player = new Vimeo.Player(playerBox);
-const dataTimeAfterPause = 'time-after-pause';
+const DATA_TIME_AFTER_PAUSE = 'time-after-pause';
 
-player.setCurrentTime(localStorage.getItem('time-after-pause'));
+player.setCurrentTime(localStorage.getItem(DATA_TIME_AFTER_PAUSE));
 
 player.on('pause', savePauseTimeInMemory);
 
 function savePauseTimeInMemory(data) {
-  localStorage.setItem('time-after-pause', data.seconds);
+  localStorage.setItem(DATA_TIME_AFTER_PAUSE, data.seconds);
 }

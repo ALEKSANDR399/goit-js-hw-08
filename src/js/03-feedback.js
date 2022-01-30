@@ -39,4 +39,3 @@ function safeNoSendForm() {
   }
 }
 safeNoSendForm();
-// cloud2265@gmail.com
