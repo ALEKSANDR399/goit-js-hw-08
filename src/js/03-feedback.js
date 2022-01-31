@@ -3,39 +3,27 @@ import throttle from 'lodash.throttle';
 const formBox = document.querySelector('.feedback-form');
 const inputEmail = document.querySelector('input');
 const textareaMessage = document.querySelector('textarea');
-const buttonSubmit = document.querySelector('button');
-const textInMemory = localStorage.getItem('feedback-email-state');
-const formObjectForStorage = {};
+const KEY_LOCALSTORAGE = 'feedback-form-state';
+const textInMemory = JSON.parse(localStorage.getItem(KEY_LOCALSTORAGE));
+const inputObject = {};
 
-formBox.addEventListener('submit', sendFormSubmit);
-formBox.addEventListener('input', throttle(addEmailToLocalStorage, 500));
-
-function addEmailToLocalStorage(event) {
-  formObjectForStorage[event.target.name] = event.target.value;
-  localStorage.setItem('feedback-message-state', JSON.stringify(formObjectForStorage));
+if (textInMemory) {
+  inputEmail.value = textInMemory.email;
+  textareaMessage.value = textInMemory.message;
 }
 
-function sendFormSubmit(event) {
+formBox.addEventListener('input', throttle(addInfoToLocal, 500));
+formBox.addEventListener('submit', sendForm);
+
+function addInfoToLocal() {
+  inputObject[inputEmail.name] = inputEmail.value;
+  inputObject[textareaMessage.name] = textareaMessage.value;
+  localStorage.setItem(KEY_LOCALSTORAGE, JSON.stringify(inputObject));
+}
+
+function sendForm(event) {
   event.preventDefault();
-
-  const formData = new FormData(event.currentTarget);
-  formData.forEach((value, name) => {
-    if (value === '') {
-      alert('no empty fields allowed');
-    }
-    console.log('name:', name);
-    console.log('value:', value);
-  });
-  event.target.reset();
-  localStorage.removeItem('feedback-message-state');
+  console.log(inputObject);
+  event.currentTarget.reset();
+  localStorage.clear();
 }
-
-function safeNoSendForm() {
-  const savedFormData = localStorage.getItem('feedback-message-state');
-  const parsedFormData = JSON.parse(savedFormData);
-  if (parsedFormData) {
-    inputEmail.value = parsedFormData.email || '';
-    textareaMessage.value = parsedFormData.message || '';
-  }
-}
-safeNoSendForm();
